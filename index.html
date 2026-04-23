@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zorgfonds - Samen Investeren</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1b4332;
+            --primary-dark: #102b21;
+            --primary-soft: #2c5b48;
+            --accent-color: #d3b89e;
+            --accent-dark: #b99876;
+            --light-bg: #f7f3ee;
+            --white-soft: #fffdfb;
+            --dark-text: #15362a;
+            --text-color: #6f8d86;
+            --muted: #8ca79f;
+            --border-soft: rgba(27, 67, 50, 0.08);
+            --shadow-soft: 0 15px 40px rgba(16, 43, 33, 0.08);
+            --shadow-card: 0 18px 45px rgba(20, 44, 35, 0.12);
+            --shadow-strong: 0 25px 70px rgba(10, 25, 19, 0.18);
+            --radius-lg: 28px;
+            --radius-md: 20px;
+            --radius-sm: 14px;
+            --container: 1240px;
+
+            --disclaimer-height: 40px;
+            --header-height: 88px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: var(--text-color);
+            line-height: 1.65;
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at top left, rgba(211, 184, 158, 0.12), transparent 32%),
+                radial-gradient(circle at 90% 12%, rgba(27, 67, 50, 0.08), transparent 28%),
+                linear-gradient(180deg, #fffdfb 0%, #f7f3ee 100%);
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--dark-text);
+            margin-bottom: 18px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 6vw, 5.6rem);
+            line-height: 0.95;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3.1rem);
+            line-height: 1;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 28px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .subtitle {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(27, 67, 50, 0.08);
+            border: 1px solid rgba(27, 67, 50, 0.1);
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .subtitle::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            box-shadow: 0 0 0 6px rgba(211, 184, 158, 0.16);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 26px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, color 0.28s ease, border-color 0.28s ease;
+            border: none;
+            font-size: 0.96rem;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            border: 1.5px solid rgba(211, 184, 158, 0.85);
+            color: var(--primary-color);
+            background: rgba(255,255,255,0.72);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 18px 40px rgba(211, 184, 158, 0.35);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
+            color: white;
+            box-shadow: 0 14px 35px rgba(185, 152, 118, 0.35);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 20px 45px rgba(185, 152, 118, 0.42);
+        }
+
+        .site-top {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .disclaimer {
+            min-height: var(--disclaimer-height);
+            background: linear-gradient(90deg, #ceb295, #dec9b2);
+            color: white;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 18px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        header {
+            min-height: var(--header-height);
+            display: flex;
+            align-items: center;
+            background: rgba(255, 253, 251, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(27, 67, 50, 0.08);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            min-height: var(--header-height);
+        }
+
+        .logo img {
+            display: block;
+            width: 180px;
+            height: auto;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        nav ul {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        nav a {
+            color: var(--dark-text);
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        nav ul a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 0;
+            height: 2px;
+            border-radius: 10px;
+            background: var(--accent-color);
+            transition: width 0.25s ease;
+        }
+
+        nav ul a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            border: 1px solid rgba(27, 67, 50, 0.12);
+            background: rgba(255,255,255,0.86);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        .menu-toggle span,
+        .menu-toggle span::before,
+        .menu-toggle span::after {
+            display: block;
+            width: 22px;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--primary-color);
+            position: relative;
+            transition: 0.25s ease;
+            content: "";
+        }
+
+        .menu-toggle span::before {
+            position: absolute;
+            top: -7px;
+        }
+
+        .menu-toggle span::after {
+            position: absolute;
+            top: 7px;
+        }
+
+        #menu-toggle {
+            display: none;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .bg-light {
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.7), rgba(247,243,238,0.95));
+        }
+
+        .hero {
+            min-height: calc(88vh - var(--disclaimer-height) - var(--header-height));
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 140px 0 120px;
+            overflow: hidden;
+            background-color: #243129;
+            background-image:
+                linear-gradient(90deg, rgba(10, 21, 16, 0.72) 0%, rgba(10, 21, 16, 0.42) 35%, rgba(10, 21, 16, 0.15) 60%, rgba(10, 21, 16, 0.2) 100%),
+                radial-gradient(circle at 22% 50%, rgba(211, 184, 158, 0.22), transparent 34%),
+                url('headerhome.jpg');
+            background-size: cover;
+            background-position: center center;
+            color: white;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: auto auto 40px 7%;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(211,184,158,0.24), transparent 70%);
+            filter: blur(18px);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto 7% 60px auto;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.09), transparent 70%);
+            filter: blur(12px);
+            pointer-events: none;
+        }
+
+        .hero .container {
+            max-width: 1240px;
+        }
+
+        .hero-content {
+            max-width: 760px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            margin-bottom: 24px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            backdrop-filter: blur(12px);
+        }
+
+        .hero-badge::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            box-shadow: 0 0 0 7px rgba(211,184,158,0.14);
+        }
+
+        .hero h1 {
+            color: white;
+            max-width: 700px;
+            margin-bottom: 24px;
+            text-shadow: 0 10px 35px rgba(0,0,0,0.28);
+        }
+
+        .hero p {
+            max-width: 620px;
+            font-size: 1.12rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 36px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .split-section {
+            display: flex;
+            align-items: center;
+            gap: 72px;
+        }
+
+        .split-section > div {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .split-section img {
+            width: 100%;
+            display: block;
+            border-radius: 24px;
+        }
+
+        .vraag-sectie {
+            overflow: hidden;
+        }
+
+        .vraag-sectie::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: -160px;
+            width: 620px;
+            height: 620px;
+            background: url('illustratie.achtergrond.png') no-repeat center/contain;
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .vraag-sectie::after {
+            content: "";
+            position: absolute;
+            right: -140px;
+            bottom: -120px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(211,184,158,0.18), transparent 65%);
+            filter: blur(20px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .vraag-sectie .text-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .vraag-sectie h2 {
+            max-width: 560px;
+        }
+
+        .vraag-sectie p {
+            max-width: 560px;
+            font-size: 1.05rem;
+        }
+
+        .vraag-sectie .image-content {
+            position: relative;
+        }
+
+        .vraag-sectie .image-content::before {
+            content: "";
+            position: absolute;
+            inset: -26px auto auto -26px;
+            width: 180px;
+            height: 180px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(211,184,158,0.2), rgba(211,184,158,0.02));
+            z-index: 0;
+            filter: blur(3px);
+        }
+
+        .vraag-sectie .image-content::after {
+            content: "";
+            position: absolute;
+            right: -18px;
+            bottom: -18px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(27,67,50,0.14), transparent 70%);
+            z-index: 0;
+            filter: blur(12px);
+        }
+
+        .vraag-sectie .image-content img {
+            position: relative;
+            z-index: 2;
+            max-width: 92%;
+            margin: 0 auto;
+            box-shadow: var(--shadow-strong);
+            transform: translateY(-8px);
+        }
+
+        .stats {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-top: 34px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            background: rgba(255,255,255,0.88);
+            border: 1px solid rgba(27, 67, 50, 0.08);
+            border-radius: 22px;
+            box-shadow: var(--shadow-soft);
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 1.35rem;
+            min-width: 220px;
+        }
+
+        .stat img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            border-radius: 0;
+            flex-shrink: 0;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 2px;
+        }
+
+        .impact-sectie {
+            overflow: hidden;
+        }
+
+        .impact-sectie::before,
+        .impact-sectie::after {
+            content: "";
+            position: absolute;
+            background: url('illustratie.achtergrond.png') no-repeat center/contain;
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .impact-sectie::before {
+            width: 820px;
+            height: 820px;
+            left: -430px;
+            top: 60px;
+        }
+
+        .impact-sectie::after {
+            width: 820px;
+            height: 820px;
+            right: -430px;
+            bottom: -40px;
+        }
+
+        .impact-sectie .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .impact-sectie .text-center > p:not(.subtitle) {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 28px;
+            margin-top: 52px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.88);
+            border: 1px solid rgba(27,67,50,0.08);
+            padding-bottom: 24px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(20,44,35,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            text-align: left;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-color), #eddccc);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 28px 55px rgba(20,44,35,0.14);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            margin-bottom: 18px;
+            border-radius: 0;
+        }
+
+        .card h3,
+        .card p {
+            padding: 0 22px;
+        }
+
+        .card h3 {
+            font-size: 1.18rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+
+        .info-split {
+            display: flex;
+            overflow: hidden;
+            border-radius: 0;
+            background-image: url('bg-info.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            height: fit-content;
+            padding: 0;
+        }
+
+        .info-split::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(16,43,33,0.86) 0%, rgba(16,43,33,0.64) 38%, rgba(211,184,158,0.18) 50%, rgba(211,184,158,0.52) 100%);
+            pointer-events: none;
+        }
+
+        .info-left,
+        .info-right {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            padding: 130px 80px;
+        }
+
+        .info-left {
+            color: rgba(255,255,255,0.92);
+        }
+
+        .info-right {
+            color: var(--primary-dark);
+            background: linear-gradient(180deg, rgba(255,248,241,0.56), rgba(247,233,218,0.7));
+            backdrop-filter: blur(4px);
+        }
+
+        .info-left h2 {
+            color: white;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .info-right h2 {
+            color: var(--primary-color);
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1;
+            margin-bottom: 0;
+        }
+
+        .info-left .subtitle {
+            color: white;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.16);
+        }
+
+        .info-left .subtitle::before {
+            background: white;
+            box-shadow: 0 0 0 6px rgba(255,255,255,0.12);
+        }
+
+        .features-list {
+            margin-top: 34px;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+            font-size: 0.98rem;
+            padding: 16px 18px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.3);
+            border: 1px solid rgba(27,67,50,0.08);
+        }
+
+        .features-list li img {
+            width: 32px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .fonds-sectie {
+            padding-top: 150px;
+            padding-bottom: 120px;
+        }
+
+        .fonds-sectie .container,
+        .fonds-sectie.split-section {
+            align-items: center;
+        }
+
+        .fonds-sectie .text-content {
+            position: relative;
+        }
+
+        .fonds-sectie .text-content::before {
+            content: "";
+            position: absolute;
+            left: -80px;
+            top: -60px;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(211,184,158,0.14), transparent 68%);
+            filter: blur(10px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .fonds-sectie h2 {
+            color: var(--primary-color);
+        }
+
+        .fonds-intro {
+            font-size: 1.08rem;
+            max-width: 92%;
+            margin-bottom: 42px;
+            color: var(--text-color);
+        }
+
+        .fonds-icons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .fonds-icon-item {
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(27,67,50,0.08);
+            border-radius: 22px;
+            padding: 24px 20px;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+        }
+
+        .fonds-icon-item:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .fonds-icon-item img {
+            width: 54px;
+            height: 54px;
+            margin-bottom: 14px;
+        }
+
+        .fonds-icon-item h4 {
+            font-size: 1.05rem;
+            color: var(--dark-green);
+            margin-bottom: 10px;
+        }
+
+        .fonds-icon-item p {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            line-height: 1.55;
+        }
+
+        .fonds-sectie .image-content {
+            position: relative;
+        }
+
+        .fonds-sectie .image-content::before {
+            content: "";
+            position: absolute;
+            right: -26px;
+            top: -26px;
+            width: 180px;
+            height: 180px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(27,67,50,0.16), rgba(27,67,50,0.03));
+            z-index: 0;
+            filter: blur(2px);
+        }
+
+        .fonds-sectie .image-content img {
+            position: relative;
+            z-index: 2;
+            box-shadow: var(--shadow-strong);
+            transform: translateY(8px);
+        }
+
+        .cta-wrap {
+            position: relative;
+            margin-top: -18px;
+            margin-bottom: 36px;
+            z-index: 5;
+        }
+
+        .cta-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            text-align: left;
+            padding: 56px 62px;
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow-strong);
+            background-image:
+                linear-gradient(90deg, rgba(19, 52, 40, 0.78), rgba(48, 89, 72, 0.52)),
+                url('bg-interesse.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .cta-banner::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            right: -80px;
+            top: -100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(211,184,158,0.26), transparent 70%);
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        .cta-banner::after {
+            content: "";
+            position: absolute;
+            inset: auto auto -70px -40px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.14), transparent 70%);
+            filter: blur(8px);
+            pointer-events: none;
+        }
+
+        .cta-banner h2 {
+            color: white;
+            margin-bottom: 0;
+            font-size: clamp(1.35rem, 2.2vw, 2rem);
+            line-height: 1.08;
+            max-width: 560px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-banner .btn {
+            position: relative;
+            z-index: 2;
+        }
+
+        footer {
+            background: linear-gradient(180deg, #fffdfb 0%, #f5f0ea 100%);
+            border-top: 1px solid rgba(27,67,50,0.06);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1.1fr 1.2fr 0.8fr;
+            gap: 50px;
+            align-items: start;
+            padding: 88px 0 72px;
+        }
+
+        .footer-logo {
+            padding-top: 14px;
+        }
+
+        .footer-logo img {
+            display: block;
+            width: 150px;
+            height: auto;
+        }
+
+        .footer-nieuwsbrief h3,
+        .footer-menu h3 {
+            color: var(--primary-color);
+            margin-bottom: 14px;
+        }
+
+        .footer-nieuwsbrief form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .footer-nieuwsbrief input {
+            padding: 14px 16px;
+            border: 1px solid rgba(27,67,50,0.12);
+            border-radius: 14px;
+            width: 280px;
+            background: rgba(255,255,255,0.82);
+            color: var(--dark-text);
+            outline: none;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+
+        .footer-nieuwsbrief input:focus {
+            border-color: rgba(211,184,158,0.95);
+            box-shadow: 0 0 0 4px rgba(211,184,158,0.15);
+        }
+
+        .footer-menu ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-menu a {
+            color: var(--text-color);
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .footer-menu a:hover {
+            color: var(--primary-color);
+            transform: translateX(3px);
+        }
+
+        @media (max-width: 1100px) {
+            .split-section,
+            .info-split {
+                gap: 40px;
+            }
+
+            .info-left,
+            .info-right {
+                padding: 100px 50px;
+            }
+
+            .grid-3,
+            .fonds-icons-grid {
+                gap: 20px;
+            }
+
+            .cta-banner {
+                padding: 46px 40px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            :root {
+                --disclaimer-height: 54px;
+                --header-height: 82px;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .logo img {
+                width: 155px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
+            }
+
+            .mobile-menu {
+                display: block;
+                max-height: 0;
+                overflow: hidden;
+                background: rgba(255, 253, 251, 0.98);
+                border-bottom: 1px solid rgba(27, 67, 50, 0.08);
+                transition: max-height 0.35s ease;
+            }
+
+            .mobile-menu-inner {
+                padding: 12px 20px 18px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .mobile-menu a {
+                color: var(--primary-color);
+                font-weight: 700;
+                padding: 12px 4px;
+                border-bottom: 1px solid rgba(27, 67, 50, 0.08);
+            }
+
+            .mobile-menu a:last-child {
+                border-bottom: none;
+            }
+
+            #menu-toggle:checked + .site-top .mobile-menu {
+                max-height: 320px;
+            }
+
+            #menu-toggle:checked + .site-top .menu-toggle span {
+                background: transparent;
+            }
+
+            #menu-toggle:checked + .site-top .menu-toggle span::before {
+                transform: rotate(45deg);
+                top: 0;
+            }
+
+            #menu-toggle:checked + .site-top .menu-toggle span::after {
+                transform: rotate(-45deg);
+                top: 0;
+            }
+
+            .split-section,
+            .info-split {
+                flex-direction: column;
+            }
+
+            .grid-3,
+            .fonds-icons-grid,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 92px 0 78px;
+                background-position: center;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.7rem, 9vw, 4.2rem);
+                line-height: 0.98;
+                margin-bottom: 18px;
+            }
+
+            .hero p {
+                max-width: 100%;
+                font-size: 1rem;
+                margin-bottom: 28px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 14px;
+            }
+
+            .hero-actions .btn {
+                width: auto;
+                min-height: 52px;
+            }
+
+            .vraag-sectie .image-content img,
+            .fonds-sectie .image-content img {
+                max-width: 100%;
+            }
+
+            .info-left,
+            .info-right {
+                width: 100%;
+                padding: 72px 28px;
+            }
+
+            .cta-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cta-banner .btn {
+                width: 100%;
+            }
+
+            .footer-content {
+                padding: 72px 0 56px;
+                gap: 34px;
+            }
+
+            .footer-logo {
+                padding-top: 22px;
+            }
+
+            .footer-nieuwsbrief input {
+                width: 100%;
+            }
+
+            .footer-nieuwsbrief form {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-nieuwsbrief .btn {
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --disclaimer-height: 58px;
+                --header-height: 78px;
+            }
+
+            section {
+                padding: 86px 0;
+            }
+
+            .container {
+                padding: 0 14px;
+            }
+
+            .disclaimer {
+                font-size: 0.58rem;
+                line-height: 1.25;
+                padding: 7px 12px;
+            }
+
+            .nav-container {
+                min-height: var(--header-height);
+            }
+
+            .logo img {
+                width: 142px;
+            }
+
+            .hero {
+                padding: 70px 0 62px;
+            }
+
+            .hero-badge {
+                font-size: 0.72rem;
+                padding: 9px 13px;
+                margin-bottom: 18px;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .stat {
+                width: 100%;
+                min-width: 0;
+                font-size: 1.1rem;
+                padding: 16px 18px;
+            }
+
+            .card img {
+                height: 220px;
+            }
+
+            .card h3,
+            .card p {
+                padding: 0 18px;
+            }
+
+            .impact-sectie::before {
+                width: 360px;
+                height: 360px;
+                left: -190px;
+                top: 80px;
+            }
+
+            .impact-sectie::after {
+                width: 360px;
+                height: 360px;
+                right: -190px;
+                bottom: 40px;
+            }
+
+            .vraag-sectie::before {
+                width: 320px;
+                height: 320px;
+                left: -130px;
+                top: 30px;
+            }
+
+            .info-left,
+            .info-right {
+                padding: 56px 20px;
+            }
+
+            .features-list li {
+                padding: 14px 14px;
+                font-size: 0.92rem;
+            }
+
+            .fonds-sectie {
+                padding-top: 100px;
+                padding-bottom: 90px;
+            }
+
+            .fonds-icon-item {
+                padding: 20px 18px;
+            }
+
+            .cta-wrap {
+                margin-top: 0;
+                margin-bottom: 26px;
+            }
+
+            .cta-banner {
+                text-align: left;
+                padding: 30px 20px;
+                border-radius: 24px;
+            }
+
+            .cta-banner h2 {
+                font-size: clamp(1.15rem, 5vw, 1.55rem);
+                max-width: 100%;
+            }
+
+            .footer-menu ul li {
+                margin-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <input type="checkbox" id="menu-toggle" />
+
+    <div class="site-top">
+        <div class="disclaimer">
+            <p>Zorgfonds is geregistreerd bij de AFM onder het light-regime (art. 2:66a Wft). Er is geen vergunningplicht en geen toezicht door de AFM of DNB.</p>
+        </div>
+
+        <header>
+            <div class="container nav-container">
+                <div class="logo">
+                    <img src="logo.png" alt="Zorgfonds Logo" width="180" />
+                </div>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="regelgeving.html">Regelgeving & Duurzaamheid</a></li>
+                        <li><a href="inhoud-fonds.html">Inhoud fonds</a></li>
+                    </ul>
+                    <a href="contact.html" class="btn btn-outline">Contact</a>
+                </nav>
+
+                <label for="menu-toggle" class="menu-toggle" aria-label="Menu openen">
+                    <span></span>
+                </label>
+            </div>
+        </header>
+
+        <div class="mobile-menu">
+            <div class="mobile-menu-inner">
+                <a href="index.html">Home</a>
+                <a href="regelgeving.html">Regelgeving & Duurzaamheid</a>
+                <a href="inhoud-fonds.html">Inhoud fonds</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">Operationeel zorgvastgoed in Nederland</div>
+                <h1>Investeer in<br>zorgvastgoed</h1>
+                <p>
+                    Welkom bij Zorgfonds "Samen Zorgen". Wij bieden investeerders de kans
+                    om mede-eigenaar te worden van hoogwaardig zorgvastgoed in Nederland.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="contact.html" class="btn btn-primary">Ontdek uw mogelijkheden</a>
+                    <a href="inhoud-fonds.html" class="btn btn-outline">Bekijk het fonds</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="vraag-sectie">
+        <div class="container split-section">
+            <div class="text-content">
+                <span class="subtitle">Zorgvraag & ontwikkeling</span>
+                <h2>De groeiende vraag<br>naar zorgvastgoed</h2>
+                <p>
+                    Nederland vergrijst in hoog tempo, de zorgvraag groeit exponentieel,
+                    terwijl het tekort aan geschikt zorgvastgoed steeds groter wordt.
+                    Zorgfonds "Samen Zorgen" springt in op deze behoefte en biedt
+                    kapitaal voor noodzakelijke huisvesting.
+                </p>
+
+                <div class="stats">
+                    <div class="stat">
+                        <img src="icon-geld.png" alt="Geld Icoon" />
+                        <div>
+                            <span class="stat-label">Marktvraag</span>
+                            € 3,8 mld
+                        </div>
+                    </div>
+                    <div class="stat">
+                        <img src="icon-huis.png" alt="Huis Icoon" />
+                        <div>
+                            <span class="stat-label">Benodigde plekken</span>
+                            400.000
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-content">
+                <img src="groeiendevraag.jpg" alt="Zorgvraag" />
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light impact-sectie">
+        <div class="container text-center">
+            <p class="subtitle">Onze zorglocaties</p>
+            <h2 style="color: var(--primary-color);">Tastbare impact door heel Nederland</h2>
+            <p>
+                Het Zorgfonds is geen abstracte belegging. Bij aanvang participeert u
+                direct in drie operationele, winstgevende zorgobjecten.
+            </p>
+
+            <div class="grid-3">
+                <div class="card">
+                    <img src="locatie-horssen.jpg" alt="Horssen" />
+                    <h3>Horssen (GLD)</h3>
+                    <p>
+                        Kleinschalig en beschut wonen voor ouderen (17 eenheden) met een
+                        15-jarig gesloten (Label A) huurcontract.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <img src="locatie-hollandsche-rading.jpg" alt="Hollandsche Rading" />
+                    <h3>Hollandsche Rading (U)</h3>
+                    <p>
+                        Een 24-uurs woonvoorziening in het groen voor 34 volwassenen die
+                        abstinent leven, voorzien van 40 eenheden en een smart-energy Label A.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <img src="locatie-leek.jpg" alt="Leek" />
+                    <h3>Leek (GR)</h3>
+                    <p>
+                        Een grootschalig woonzorgcentrum in het centrum van Leek voor 114
+                        bewoners met intensieve zorg en dementie, inclusief een langjarig
+                        30-jarig huurcontract.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-split">
+        <div class="info-left">
+            <span class="subtitle">Toezicht & transparantie</span>
+            <h2>Betrouwbaar &<br />Professioneel beheer</h2>
+            <p>
+                Als investeerder wilt u precies weten waar u aan toe bent. Zorgfonds
+                "Samen Zorgen" wordt beheerd door een professionele, ervaren beheerder
+                die formeel is geregistreerd bij de Autoriteit Financiële Markten (AFM)
+                onder het AIFMD-regime. Wij hechten aan heldere communicatie en een
+                transparante, fiscaal vriendelijke CV-structuur. Zo bieden we u
+                zekerheid, zonder onnodige bureaucratie.
+            </p>
+            <br />
+            <a href="inhoud-fonds.html" class="btn btn-primary">Bekijk onze fondsstructuur →</a>
+        </div>
+
+        <div class="info-right">
+            <span class="subtitle">Rendement & impact</span>
+            <h2>Veilig investeren met<br />maatschappelijke impact</h2>
+            <p>
+                Wij combineren een solide bankfinanciering (LTV) met de inleg van
+                maximaal 50 exclusieve deelnemers. Door te investeren in operationeel
+                zorgvastgoed met extramurale zorg (gescheiden wonen en zorg), realiseert
+                het fonds direct een stabiele huurstroom en creëren we waarde op de
+                lange termijn.
+            </p>
+
+            <ul class="features-list">
+                <li>
+                    <img src="icon-rendement-check.png" alt="Check" />
+                    <span><strong>Aantrekkelijk rendement:</strong> 7 - 8% verwacht totaal rendement (incl. 4% vast dividend)</span>
+                </li>
+                <li>
+                    <img src="icon-zekerheid.png" alt="Document" />
+                    <span><strong>Zekerheid:</strong> Langjarige (15-30 jaar) huurcontracten</span>
+                </li>
+                <li>
+                    <img src="icon-duurzaamheid.png" alt="Duurzaam" />
+                    <span><strong>Duurzame impact:</strong> Zorgwoningen voor kwetsbare doelgroepen</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="fonds-sectie">
+        <div class="container split-section">
+            <div class="text-content">
+                <span class="subtitle">Uitleg</span>
+                <h2>Wat is een fonds?</h2>
+                <p class="fonds-intro">
+                    Een fonds is een gezamenlijke pot geld van meerdere deelnemers, die
+                    door een professionele beheerder wordt belegd in een specifiek type vastgoed.
+                </p>
+
+                <div class="fonds-icons-grid">
+                    <div class="fonds-icon-item">
+                        <img src="icon-deelnemers.png" alt="Deelnemers Icoon" />
+                        <h4>Deelnemers</h4>
+                        <p>Meerdere investeerders leggen samen in vanuit een gedeelde visie.</p>
+                    </div>
+
+                    <div class="fonds-icon-item">
+                        <img src="icon-beheerder.png" alt="Beheerder Icoon" />
+                        <h4>Fondsbeheerder</h4>
+                        <p>Een professionele beheerder koopt en beheert namens het fonds het zorgvastgoed.</p>
+                    </div>
+
+                    <div class="fonds-icon-item">
+                        <img src="icon-rendement-grafiek.png" alt="Rendement Icoon" />
+                        <h4>Rendement</h4>
+                        <p>Opbrengsten uit huur en waardeontwikkeling worden verdeeld naar rato van inleg.</p>
+                    </div>
+                </div>
+
+                <a href="inhoud-fonds.html" class="btn btn-primary">Ontdek het zorgfonds →</a>
+            </div>
+
+            <div class="image-content">
+                <img src="wat-is-een-fonds.jpg" alt="Wat is een fonds" />
+            </div>
+        </div>
+    </section>
+
+    <div class="container cta-wrap">
+        <section class="cta-banner">
+            <h2>Interesse in ons fonds? Ontdek uw mogelijkheden.</h2>
+            <a href="contact.html" class="btn btn-primary">Naar contactpagina</a>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <img src="samen-investeren.png" alt="Samen Investeren" width="150" />
+            </div>
+
+            <div class="footer-nieuwsbrief">
+                <h3>Ontvang onze nieuwsbrief</h3>
+                <form>
+                    <input type="email" placeholder="E-mailadres..." />
+                    <button type="submit" class="btn btn-primary">Verzenden</button>
+                </form>
+            </div>
+
+            <div class="footer-menu">
+                <h3>Menu</h3>
+                <ul>
+                    <li><a href="index.html">Onze focus</a></li>
+                    <li><a href="regelgeving.html">Regelgeving & Duurzaamheid</a></li>
+                    <li><a href="inhoud-fonds.html">Inhoud fonds</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
